@@ -1,0 +1,161 @@
+/* Colores en un solo lugar. El modo oscuro se activa solo si el celu lo usa. */
+:root {
+  --fondo: #f4f5f2;
+  --tarjeta: #ffffff;
+  --texto: #1c1f1d;
+  --suave: #5f6762;
+  --borde: #d9ddd8;
+  --marca: #0f766e;
+  --marca-texto: #ffffff;
+  --ok: #15803d;
+  --error: #b91c1c;
+  --campo: #fbfbfa;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #121513;
+    --tarjeta: #1b201d;
+    --texto: #e9ece9;
+    --suave: #9aa39d;
+    --borde: #2f3632;
+    --marca: #2dd4bf;
+    --marca-texto: #08201d;
+    --ok: #4ade80;
+    --error: #f87171;
+    --campo: #151916;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--texto);
+  font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.pantalla {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+}
+.pantalla[hidden] { display: none; }
+
+h1 { font-size: 1.5rem; margin: 8px 0 16px; }
+h2 { font-size: 1rem; margin: 0 0 8px; color: var(--suave); font-weight: 600; }
+
+.barra { display: flex; align-items: center; justify-content: space-between; }
+
+.tarjeta {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+label { display: flex; flex-direction: column; gap: 6px; font-size: 0.875rem; color: var(--suave); }
+fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+fieldset[hidden], label[hidden] { display: none; }
+
+/* 16px en los campos evita que el iPhone haga zoom al tocarlos */
+input[type="text"], input[type="email"], input[type="password"], input[type="date"], select {
+  font: inherit;
+  font-size: 16px;
+  color: var(--texto);
+  background: var(--campo);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 12px;
+  min-height: 48px;
+  width: 100%;
+}
+input:focus, select:focus { outline: 2px solid var(--marca); outline-offset: 1px; }
+#monto { font-size: 1.75rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.fila-monto { display: flex; gap: 10px; align-items: flex-end; }
+.crece { flex: 1; min-width: 0; }
+.dos-columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* Botones de dos opciones (Gasto/Ingreso, ARS/USD, Variable/Fijo) */
+.segmentado {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  background: var(--campo);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 4px;
+}
+.segmentado input { position: absolute; opacity: 0; pointer-events: none; }
+.segmentado label {
+  display: block;
+  text-align: center;
+  padding: 10px 8px;
+  border-radius: 9px;
+  font-size: 1rem;
+  color: var(--texto);
+  cursor: pointer;
+  min-height: 44px;
+}
+.segmentado input:checked + label { background: var(--marca); color: var(--marca-texto); font-weight: 600; }
+.segmentado input:focus-visible + label { outline: 2px solid var(--marca); outline-offset: 2px; }
+.segmentado.chico label { padding: 10px 12px; }
+.segmentado.chico { min-height: 48px; }
+
+.interruptor { flex-direction: row; align-items: center; gap: 10px; color: var(--texto); font-size: 1rem; min-height: 44px; }
+.interruptor input { width: 24px; height: 24px; accent-color: var(--marca); }
+
+.vista-previa { margin: -6px 0 0; font-size: 0.875rem; min-height: 1.2em; color: var(--suave); }
+.vista-previa.ok { color: var(--ok); }
+.vista-previa.error, .error { color: var(--error); }
+
+.boton-principal {
+  font: inherit;
+  font-weight: 600;
+  font-size: 1.05rem;
+  background: var(--marca);
+  color: var(--marca-texto);
+  border: 0;
+  border-radius: 12px;
+  min-height: 52px;
+  cursor: pointer;
+}
+.boton-principal:disabled { opacity: 0.6; }
+.boton-chico {
+  font: inherit;
+  background: transparent;
+  color: var(--suave);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 8px 14px;
+  min-height: 40px;
+}
+
+.mensaje { margin: 0; font-size: 0.95rem; }
+.mensaje[hidden] { display: none; }
+.mensaje.ok { color: var(--ok); }
+.mensaje.error { color: var(--error); }
+
+.lista { list-style: none; margin: 0; padding: 0; }
+.lista li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--borde); }
+.lista li:first-child { border-top: 0; }
+.lista strong { display: block; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lista small { color: var(--suave); }
+.lista .vacio { color: var(--suave); }
+.importe { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.boton-borrar {
+  background: transparent;
+  border: 0;
+  color: var(--suave);
+  font-size: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.boton-borrar:active { background: var(--campo); color: var(--error); }

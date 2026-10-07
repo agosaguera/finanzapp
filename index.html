@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Finanzas">
+  <title>Finanzas</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icono-180.png">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+  <!-- Pantalla de login: se muestra si no hay sesión iniciada -->
+  <main id="pantalla-login" class="pantalla" hidden>
+    <h1>Finanzas</h1>
+    <form id="form-login" class="tarjeta">
+      <label>Mail
+        <input type="email" id="login-mail" autocomplete="username" required>
+      </label>
+      <label>Contraseña
+        <input type="password" id="login-clave" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="boton-principal">Entrar</button>
+      <p id="login-error" class="error" hidden></p>
+    </form>
+  </main>
+
+  <!-- Pantalla de carga: lo primero que ves con la sesión abierta -->
+  <main id="pantalla-carga" class="pantalla" hidden>
+    <header class="barra">
+      <h1>Cargar</h1>
+      <button id="boton-salir" class="boton-chico" type="button">Salir</button>
+    </header>
+
+    <form id="form-carga" class="tarjeta" novalidate>
+      <div class="segmentado" role="radiogroup" aria-label="Tipo">
+        <input type="radio" name="tipo" id="tipo-gasto" value="Gasto" checked>
+        <label for="tipo-gasto">Gasto</label>
+        <input type="radio" name="tipo" id="tipo-ingreso" value="Ingreso">
+        <label for="tipo-ingreso">Ingreso</label>
+      </div>
+
+      <div class="fila-monto">
+        <label class="crece">Monto
+          <input type="text" id="monto" inputmode="decimal" autocomplete="off" placeholder="0" required>
+        </label>
+        <div class="segmentado chico" role="radiogroup" aria-label="Divisa">
+          <input type="radio" name="divisa" id="divisa-ars" value="ARS" checked>
+          <label for="divisa-ars">ARS</label>
+          <input type="radio" name="divisa" id="divisa-usd" value="USD">
+          <label for="divisa-usd">USD</label>
+        </div>
+      </div>
+      <p id="monto-vista" class="vista-previa" aria-live="polite"></p>
+
+      <label>Detalle
+        <input type="text" id="detalle" autocomplete="off" placeholder="Ej: Super" required>
+      </label>
+
+      <label>Categoría
+        <select id="categoria" required></select>
+      </label>
+
+      <div class="segmentado" role="radiogroup" aria-label="Fijo o variable">
+        <input type="radio" name="fijo-variable" id="fv-variable" value="Variable" checked>
+        <label for="fv-variable">Variable</label>
+        <input type="radio" name="fijo-variable" id="fv-fijo" value="Fijo">
+        <label for="fv-fijo">Fijo</label>
+      </div>
+
+      <!-- Solo para fijos -->
+      <fieldset id="bloque-fijo" hidden>
+        <div class="segmentado" role="radiogroup" aria-label="Modalidad">
+          <input type="radio" name="modalidad" id="mod-recurrente" value="Recurrente" checked>
+          <label for="mod-recurrente">Recurrente</label>
+          <input type="radio" name="modalidad" id="mod-cuota" value="Cuota">
+          <label for="mod-cuota">Cuota</label>
+        </div>
+        <label id="bloque-ultimo-pago" hidden>Último pago
+          <input type="date" id="fecha-fin">
+        </label>
+      </fieldset>
+
+      <div class="dos-columnas">
+        <label>Fecha
+          <input type="date" id="fecha-inicio" required>
+        </label>
+        <label>Método de pago
+          <select id="metodo-pago"></select>
+        </label>
+      </div>
+
+      <label class="interruptor">
+        <input type="checkbox" id="esencial">
+        <span>Esencial</span>
+      </label>
+
+      <button type="submit" class="boton-principal" id="boton-guardar">Guardar</button>
+      <p id="carga-mensaje" class="mensaje" aria-live="polite" hidden></p>
+    </form>
+
+    <section class="tarjeta">
+      <h2>Últimos cargados</h2>
+      <ul id="lista-ultimos" class="lista"></ul>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="montos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
