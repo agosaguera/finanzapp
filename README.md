@@ -12,8 +12,9 @@ App personal de finanzas para usar desde el celu. Reemplaza a Google Forms + Goo
 
 ## Archivos
 
-- `index.html`: las pantallas (login y carga).
-- `app.js`: lo que pasa al tocar cada botón.
+- `index.html`: las pantallas (login, carga y ciclo) y el menú de abajo.
+- `app.js`: login, menú y carga de movimientos.
+- `ciclo.js`: pantalla de ciclo: ciclo nuevo cuando cobrás y corrección de cotización o presupuesto.
 - `montos.js`: lee los montos escritos a mano (6,99 · 1.500 · 45.000,50) sin confundir decimales con miles.
 - `estilos.css`: colores y tamaños, con modo oscuro.
 - `config.js`: dirección de Supabase y clave publishable (pública a propósito; los datos se protegen con login + RLS).

@@ -18,7 +18,17 @@ function valorDe(nombre) {
 function mostrar(pantalla) {
   $("pantalla-login").hidden = pantalla !== "login";
   $("pantalla-carga").hidden = pantalla !== "carga";
+  $("pantalla-ciclo").hidden = pantalla !== "ciclo";
+  $("menu").hidden = pantalla === "login";
+  document.querySelectorAll("#menu button").forEach((b) => b.classList.toggle("activo", b.dataset.pantalla === pantalla));
+  window.scrollTo(0, 0);
+  if (pantalla === "ciclo") abrirCiclo();
 }
+
+$("menu").addEventListener("click", (e) => {
+  const boton = e.target.closest("button[data-pantalla]");
+  if (boton) mostrar(boton.dataset.pantalla);
+});
 
 function mensaje(texto, tipo) {
   const p = $("carga-mensaje");

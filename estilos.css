@@ -159,3 +159,40 @@ input:focus, select:focus { outline: 2px solid var(--marca); outline-offset: 1px
   cursor: pointer;
 }
 .boton-borrar:active { background: var(--campo); color: var(--error); }
+
+/* Menú de abajo */
+.menu {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background: var(--tarjeta);
+  border-top: 1px solid var(--borde);
+  padding: 6px 16px max(6px, env(safe-area-inset-bottom));
+}
+.menu[hidden] { display: none; }
+.menu button {
+  font: inherit;
+  font-weight: 600;
+  background: transparent;
+  color: var(--suave);
+  border: 0;
+  border-radius: 10px;
+  min-height: 48px;
+  cursor: pointer;
+}
+.menu button.activo { color: var(--marca); background: var(--campo); }
+/* lugar para que el menú no tape el final de cada pantalla */
+#pantalla-carga, #pantalla-ciclo { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+
+/* Pantalla de ciclo */
+.ayuda { margin: -8px 0 0; font-size: 0.875rem; color: var(--suave); }
+.ayuda:empty { display: none; }
+.campos-presupuesto { display: flex; flex-direction: column; gap: 8px; }
+.campo-presupuesto { flex-direction: row; align-items: center; gap: 10px; color: var(--texto); font-size: 1rem; }
+.campo-presupuesto span { flex: 1; }
+.campo-presupuesto input { width: 9.5rem; flex: none; text-align: right; font-variant-numeric: tabular-nums; }
+input.invalido { border-color: var(--error); outline-color: var(--error); }
+.total-presupuesto { margin: 0; text-align: right; color: var(--suave); }
+.total-presupuesto strong { color: var(--texto); font-variant-numeric: tabular-nums; }
+#bloque-ciclo-nuevo[hidden] { display: none; }

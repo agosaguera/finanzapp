@@ -109,9 +109,57 @@
     </section>
   </main>
 
+  <!-- Pantalla de ciclo: cargar el ciclo nuevo cuando cobrás, o corregir uno -->
+  <main id="pantalla-ciclo" class="pantalla" hidden>
+    <header class="barra">
+      <h1>Ciclo</h1>
+    </header>
+
+    <section class="tarjeta">
+      <h2>Tus ciclos</h2>
+      <ul id="lista-ciclos" class="lista"></ul>
+    </section>
+
+    <form id="form-ciclo" class="tarjeta" novalidate>
+      <label>¿Qué ciclo?
+        <select id="ciclo-elegido"></select>
+      </label>
+
+      <div id="bloque-ciclo-nuevo">
+        <div class="dos-columnas">
+          <label>Día que cobraste
+            <input type="date" id="ciclo-fecha">
+          </label>
+          <label>Nombre
+            <input type="text" id="ciclo-nombre" autocomplete="off">
+          </label>
+        </div>
+      </div>
+
+      <label>Cotización del dólar (Takenos)
+        <input type="text" id="ciclo-cotizacion" inputmode="decimal" autocomplete="off" placeholder="Ej: 1.570">
+      </label>
+
+      <h2>Presupuesto por categoría</h2>
+      <p id="presupuesto-origen" class="ayuda"></p>
+      <div id="campos-presupuesto" class="campos-presupuesto"></div>
+      <p class="total-presupuesto">Total: <strong id="presupuesto-total">$ 0,00</strong></p>
+
+      <button type="submit" class="boton-principal" id="boton-guardar-ciclo">Guardar ciclo</button>
+      <p id="ciclo-mensaje" class="mensaje" aria-live="polite" hidden></p>
+    </form>
+  </main>
+
+  <!-- Menú de abajo, para pasar de una pantalla a otra -->
+  <nav id="menu" class="menu" hidden>
+    <button type="button" data-pantalla="carga" class="activo">Cargar</button>
+    <button type="button" data-pantalla="ciclo">Ciclo</button>
+  </nav>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="montos.js"></script>
   <script src="app.js"></script>
+  <script src="ciclo.js"></script>
 </body>
 </html>
