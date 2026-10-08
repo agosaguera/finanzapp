@@ -195,6 +195,45 @@
     </section>
   </main>
 
+  <!-- Pantalla de cuotas: qué debo y cuánto margen tengo -->
+  <main id="pantalla-cuotas" class="pantalla" hidden>
+    <header class="barra">
+      <h1>Cuotas</h1>
+    </header>
+    <p class="ayuda ayuda-arriba">Se calcula desde hoy, no depende del ciclo.</p>
+
+    <p id="cuotas-mensaje" class="mensaje error" hidden></p>
+
+    <section class="tarjeta">
+      <div class="numeros">
+        <div class="numero">
+          <span>Total comprometido</span>
+          <strong id="n-comprometido">…</strong>
+        </div>
+        <div class="numero">
+          <span>Cuotas de este mes</span>
+          <strong id="n-cuota-mes">…</strong>
+        </div>
+      </div>
+      <div class="numero grande">
+        <span>Margen para cuotas nuevas</span>
+        <strong id="n-margen">…</strong>
+        <span id="margen-semaforo" class="semaforo"></span>
+      </div>
+      <p id="margen-ayuda" class="ayuda"></p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Tus cuotas</h2>
+      <ul id="lista-cuotas" class="lista cuotas"></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Cuánto pagás por mes</h2>
+      <ul id="lista-proyeccion" class="lista proyeccion"></ul>
+    </section>
+  </main>
+
   <!-- Pantalla de ciclo: cargar el ciclo nuevo cuando cobrás, o corregir uno -->
   <main id="pantalla-ciclo" class="pantalla" hidden>
     <header class="barra">
@@ -241,6 +280,7 @@
     <button type="button" data-pantalla="carga" class="activo">Cargar</button>
     <button type="button" data-pantalla="inicio">Inicio</button>
     <button type="button" data-pantalla="semanal">Semanal</button>
+    <button type="button" data-pantalla="cuotas">Cuotas</button>
     <button type="button" data-pantalla="ciclo">Ciclo</button>
   </nav>
 
@@ -251,5 +291,6 @@
   <script src="ciclo.js"></script>
   <script src="inicio.js"></script>
   <script src="semanal.js"></script>
+  <script src="cuotas.js"></script>
 </body>
 </html>

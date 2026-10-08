@@ -165,7 +165,7 @@ input:focus, select:focus { outline: 2px solid var(--marca); outline-offset: 1px
   position: fixed;
   left: 0; right: 0; bottom: 0;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   background: var(--tarjeta);
   border-top: 1px solid var(--borde);
   padding: 6px 8px max(6px, env(safe-area-inset-bottom));
@@ -174,6 +174,8 @@ input:focus, select:focus { outline: 2px solid var(--marca); outline-offset: 1px
 .menu button {
   font: inherit;
   font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0 2px;
   background: transparent;
   color: var(--suave);
   border: 0;
@@ -183,7 +185,7 @@ input:focus, select:focus { outline: 2px solid var(--marca); outline-offset: 1px
 }
 .menu button.activo { color: var(--marca); background: var(--campo); }
 /* lugar para que el menú no tape el final de cada pantalla */
-#pantalla-carga, #pantalla-ciclo, #pantalla-inicio, #pantalla-semanal { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+#pantalla-carga, #pantalla-ciclo, #pantalla-inicio, #pantalla-semanal, #pantalla-cuotas { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 
 /* Pantalla de ciclo */
 .ayuda { margin: -8px 0 0; font-size: 0.875rem; color: var(--suave); }
@@ -243,3 +245,14 @@ input.invalido { border-color: var(--error); outline-color: var(--error); }
 .semaforo.sin-datos::before { content: ""; }
 .barra-uso div.amarillo { background: var(--amarillo); }
 .barra-uso div.rojo { background: var(--error); }
+
+/* Pantalla de cuotas */
+.ayuda-arriba { margin: -10px 0 16px; }
+.cuotas li { align-items: flex-start; }
+.cuotas .importe { text-align: right; }
+.cuotas .importe small { display: block; }
+.proyeccion li { flex-direction: column; align-items: stretch; gap: 4px; }
+.proyeccion .fila { display: flex; justify-content: space-between; gap: 10px; font-variant-numeric: tabular-nums; }
+.proyeccion .fila span:first-child { font-weight: 500; }
+.proyeccion small { color: var(--suave); }
+.barra-uso div.marca { background: var(--marca); }

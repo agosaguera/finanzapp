@@ -21,12 +21,14 @@ function mostrar(pantalla) {
   $("pantalla-ciclo").hidden = pantalla !== "ciclo";
   $("pantalla-inicio").hidden = pantalla !== "inicio";
   $("pantalla-semanal").hidden = pantalla !== "semanal";
+  $("pantalla-cuotas").hidden = pantalla !== "cuotas";
   $("menu").hidden = pantalla === "login";
   document.querySelectorAll("#menu button").forEach((b) => b.classList.toggle("activo", b.dataset.pantalla === pantalla));
   window.scrollTo(0, 0);
   if (pantalla === "ciclo") abrirCiclo();
   if (pantalla === "inicio") abrirInicio();
   if (pantalla === "semanal") abrirSemanal();
+  if (pantalla === "cuotas") abrirCuotas();
 }
 
 $("menu").addEventListener("click", (e) => {
