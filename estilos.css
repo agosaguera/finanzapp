@@ -165,10 +165,10 @@ input:focus, select:focus { outline: 2px solid var(--marca); outline-offset: 1px
   position: fixed;
   left: 0; right: 0; bottom: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   background: var(--tarjeta);
   border-top: 1px solid var(--borde);
-  padding: 6px 16px max(6px, env(safe-area-inset-bottom));
+  padding: 6px 8px max(6px, env(safe-area-inset-bottom));
 }
 .menu[hidden] { display: none; }
 .menu button {
@@ -183,7 +183,7 @@ input:focus, select:focus { outline: 2px solid var(--marca); outline-offset: 1px
 }
 .menu button.activo { color: var(--marca); background: var(--campo); }
 /* lugar para que el menú no tape el final de cada pantalla */
-#pantalla-carga, #pantalla-ciclo, #pantalla-inicio { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+#pantalla-carga, #pantalla-ciclo, #pantalla-inicio, #pantalla-semanal { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 
 /* Pantalla de ciclo */
 .ayuda { margin: -8px 0 0; font-size: 0.875rem; color: var(--suave); }
@@ -222,3 +222,24 @@ input.invalido { border-color: var(--error); outline-color: var(--error); }
 .barra-uso div.paso { background: var(--error); }
 .ultimo { margin: 0; }
 .ultimo small { display: block; color: var(--suave); }
+
+/* Pantalla semanal */
+:root { --amarillo: #b45309; }
+@media (prefers-color-scheme: dark) { :root { --amarillo: #fbbf24; } }
+.semanas li { flex-direction: column; align-items: stretch; gap: 6px; cursor: pointer; padding: 10px 8px; margin: 0 -8px; border-radius: 10px; }
+.tarjeta[hidden] { display: none; }
+.semanas li.hoy { background: var(--campo); outline: 1px solid var(--marca); }
+.semanas li.elegida { background: var(--campo); }
+.semanas .fila { display: flex; justify-content: space-between; gap: 10px; }
+.semanas .fila span:first-child { font-weight: 500; }
+.semanas .fila small { color: var(--suave); font-weight: 400; }
+.semanas .detalle { display: flex; justify-content: space-between; gap: 10px; font-size: 0.875rem; color: var(--suave); font-variant-numeric: tabular-nums; }
+.semaforo { font-size: 0.875rem; font-weight: 600; white-space: nowrap; }
+.semaforo::before { content: "●  "; }
+.semaforo.verde { color: var(--ok); }
+.semaforo.amarillo { color: var(--amarillo); }
+.semaforo.rojo { color: var(--error); }
+.semaforo.sin-datos { color: var(--suave); font-weight: 500; }
+.semaforo.sin-datos::before { content: ""; }
+.barra-uso div.amarillo { background: var(--amarillo); }
+.barra-uso div.rojo { background: var(--error); }

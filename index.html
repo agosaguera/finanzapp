@@ -158,6 +158,43 @@
     </section>
   </main>
 
+  <!-- Pantalla semanal: el pozo de cada semana -->
+  <main id="pantalla-semanal" class="pantalla" hidden>
+    <header class="barra">
+      <h1>Semanal</h1>
+    </header>
+
+    <label class="tarjeta selector-ciclo">Ciclo
+      <select id="semanal-ciclo"></select>
+    </label>
+
+    <p id="semanal-mensaje" class="mensaje error" hidden></p>
+
+    <section class="tarjeta">
+      <div class="numeros">
+        <div class="numero">
+          <span>Libre en el ciclo</span>
+          <strong id="n-libre-ciclo">…</strong>
+        </div>
+        <div class="numero">
+          <span>Por semana</span>
+          <strong id="n-por-semana">…</strong>
+        </div>
+      </div>
+      <p class="ayuda">Cuenta solo los variables de las categorías sin presupuesto propio.</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Semanas</h2>
+      <ul id="lista-semanas" class="lista semanas"></ul>
+    </section>
+
+    <section class="tarjeta" id="bloque-semana" hidden>
+      <h2 id="titulo-semana">Gastos de la semana</h2>
+      <ul id="lista-semana" class="lista"></ul>
+    </section>
+  </main>
+
   <!-- Pantalla de ciclo: cargar el ciclo nuevo cuando cobrás, o corregir uno -->
   <main id="pantalla-ciclo" class="pantalla" hidden>
     <header class="barra">
@@ -203,6 +240,7 @@
   <nav id="menu" class="menu" hidden>
     <button type="button" data-pantalla="carga" class="activo">Cargar</button>
     <button type="button" data-pantalla="inicio">Inicio</button>
+    <button type="button" data-pantalla="semanal">Semanal</button>
     <button type="button" data-pantalla="ciclo">Ciclo</button>
   </nav>
 
@@ -212,5 +250,6 @@
   <script src="app.js"></script>
   <script src="ciclo.js"></script>
   <script src="inicio.js"></script>
+  <script src="semanal.js"></script>
 </body>
 </html>

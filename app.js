@@ -20,11 +20,13 @@ function mostrar(pantalla) {
   $("pantalla-carga").hidden = pantalla !== "carga";
   $("pantalla-ciclo").hidden = pantalla !== "ciclo";
   $("pantalla-inicio").hidden = pantalla !== "inicio";
+  $("pantalla-semanal").hidden = pantalla !== "semanal";
   $("menu").hidden = pantalla === "login";
   document.querySelectorAll("#menu button").forEach((b) => b.classList.toggle("activo", b.dataset.pantalla === pantalla));
   window.scrollTo(0, 0);
   if (pantalla === "ciclo") abrirCiclo();
   if (pantalla === "inicio") abrirInicio();
+  if (pantalla === "semanal") abrirSemanal();
 }
 
 $("menu").addEventListener("click", (e) => {
