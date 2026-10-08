@@ -10,6 +10,7 @@
   --ok: #15803d;
   --error: #b91c1c;
   --campo: #fbfbfa;
+  --variable: #7c3aed;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -23,6 +24,7 @@
     --ok: #4ade80;
     --error: #f87171;
     --campo: #151916;
+    --variable: #a78bfa;
   }
 }
 
@@ -185,7 +187,7 @@ input:focus, select:focus { outline: 2px solid var(--marca); outline-offset: 1px
 }
 .menu button.activo { color: var(--marca); background: var(--campo); }
 /* lugar para que el menú no tape el final de cada pantalla */
-#pantalla-carga, #pantalla-ciclo, #pantalla-inicio, #pantalla-semanal, #pantalla-cuotas { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+#pantalla-carga, #pantalla-ciclo, #pantalla-inicio, #pantalla-semanal, #pantalla-cuotas, #pantalla-analisis { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
 
 /* Pantalla de ciclo */
 .ayuda { margin: -8px 0 0; font-size: 0.875rem; color: var(--suave); }
@@ -228,7 +230,7 @@ input.invalido { border-color: var(--error); outline-color: var(--error); }
 /* Pantalla semanal */
 :root { --amarillo: #b45309; }
 @media (prefers-color-scheme: dark) { :root { --amarillo: #fbbf24; } }
-.semanas li { flex-direction: column; align-items: stretch; gap: 6px; cursor: pointer; padding: 10px 8px; margin: 0 -8px; border-radius: 10px; }
+.semanas li { border-top: 0; flex-direction: column; align-items: stretch; gap: 6px; cursor: pointer; padding: 10px 8px; margin: 0 -8px; border-radius: 10px; }
 .tarjeta[hidden] { display: none; }
 .semanas li.hoy { background: var(--campo); outline: 1px solid var(--marca); }
 .semanas li.elegida { background: var(--campo); }
@@ -256,3 +258,19 @@ input.invalido { border-color: var(--error); outline-color: var(--error); }
 .proyeccion .fila span:first-child { font-weight: 500; }
 .proyeccion small { color: var(--suave); }
 .barra-uso div.marca { background: var(--marca); }
+
+/* Análisis de gastos */
+.boton-ancho { width: 100%; margin-bottom: 16px; }
+.proporcion { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--campo); border: 1px solid var(--borde); }
+.proporcion div { height: 100%; }
+.proporcion .fijo, .barras .fijo { background: var(--marca); }
+.proporcion .variable, .barras .variable { background: var(--variable); }
+.proporcion .total, .barras .total { background: var(--suave); }
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 0.875rem; color: var(--suave); font-variant-numeric: tabular-nums; }
+.leyenda span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; background: var(--c); }
+.barras li { border-top: 0; flex-direction: column; align-items: stretch; gap: 4px; cursor: pointer; padding: 8px; margin: 0 -8px; border-radius: 10px; }
+.barras li.elegida { background: var(--campo); outline: 1px solid var(--marca); }
+.barras .fila { display: flex; justify-content: space-between; gap: 10px; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+.barras .fila span:last-child { white-space: nowrap; }
+.barras .pista { height: 10px; border-radius: 5px; background: var(--campo); overflow: hidden; }
+.barras .pista div { height: 100%; border-radius: 5px; min-width: 2px; }

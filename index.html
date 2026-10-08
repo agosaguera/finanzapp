@@ -156,6 +156,56 @@
       <h2>Último registro</h2>
       <p id="ultimo-registro" class="ultimo">…</p>
     </section>
+
+    <button type="button" class="boton-principal boton-ancho" id="boton-analisis">Ver en qué se va la plata</button>
+  </main>
+
+  <!-- Análisis de gastos: se abre desde Inicio, con el mismo ciclo -->
+  <main id="pantalla-analisis" class="pantalla" hidden>
+    <header class="barra">
+      <h1>En qué se va</h1>
+      <button type="button" class="boton-chico" id="boton-volver-inicio">← Inicio</button>
+    </header>
+
+    <label class="tarjeta selector-ciclo">Ciclo
+      <select id="analisis-ciclo"></select>
+    </label>
+
+    <p id="analisis-mensaje" class="mensaje error" hidden></p>
+
+    <section class="tarjeta">
+      <h2>Fijos y variables</h2>
+      <div class="numero">
+        <span>Total gastado</span>
+        <strong id="n-total-gastado">…</strong>
+      </div>
+      <div id="proporcion" class="proporcion" role="img"></div>
+      <div id="proporcion-leyenda" class="leyenda"></div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Fijos por categoría</h2>
+      <ul id="barras-fijos" class="lista barras"></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Variables por categoría</h2>
+      <ul id="barras-variables" class="lista barras"></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Total por categoría</h2>
+      <ul id="barras-total" class="lista barras"></ul>
+    </section>
+
+    <section class="tarjeta" id="bloque-detalle">
+      <div class="barra">
+        <h2 id="titulo-detalle">Todos los gastos</h2>
+        <button type="button" class="boton-chico" id="boton-quitar-filtro" hidden>Ver todos</button>
+      </div>
+      <p class="ayuda">Tocá una barra para ver solo esos gastos.</p>
+      <ul id="lista-detalle" class="lista"></ul>
+    </section>
   </main>
 
   <!-- Pantalla semanal: el pozo de cada semana -->
@@ -292,5 +342,6 @@
   <script src="inicio.js"></script>
   <script src="semanal.js"></script>
   <script src="cuotas.js"></script>
+  <script src="analisis.js"></script>
 </body>
 </html>

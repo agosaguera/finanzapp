@@ -22,13 +22,17 @@ function mostrar(pantalla) {
   $("pantalla-inicio").hidden = pantalla !== "inicio";
   $("pantalla-semanal").hidden = pantalla !== "semanal";
   $("pantalla-cuotas").hidden = pantalla !== "cuotas";
+  $("pantalla-analisis").hidden = pantalla !== "analisis";
   $("menu").hidden = pantalla === "login";
-  document.querySelectorAll("#menu button").forEach((b) => b.classList.toggle("activo", b.dataset.pantalla === pantalla));
+  // Análisis no tiene botón propio: se abre desde Inicio
+  const enMenu = pantalla === "analisis" ? "inicio" : pantalla;
+  document.querySelectorAll("#menu button").forEach((b) => b.classList.toggle("activo", b.dataset.pantalla === enMenu));
   window.scrollTo(0, 0);
   if (pantalla === "ciclo") abrirCiclo();
   if (pantalla === "inicio") abrirInicio();
   if (pantalla === "semanal") abrirSemanal();
   if (pantalla === "cuotas") abrirCuotas();
+  if (pantalla === "analisis") abrirAnalisis();
 }
 
 $("menu").addEventListener("click", (e) => {
