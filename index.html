@@ -109,6 +109,55 @@
     </section>
   </main>
 
+  <!-- Pantalla de inicio: cómo viene el ciclo -->
+  <main id="pantalla-inicio" class="pantalla" hidden>
+    <header class="barra">
+      <h1>Inicio</h1>
+    </header>
+
+    <label class="tarjeta selector-ciclo">Ciclo
+      <select id="inicio-ciclo"></select>
+      <small id="inicio-fechas"></small>
+    </label>
+
+    <p id="inicio-mensaje" class="mensaje error" hidden></p>
+
+    <section class="tarjeta">
+      <div class="numeros">
+        <div class="numero">
+          <span>Ingresos</span>
+          <strong id="n-ingresos">…</strong>
+        </div>
+        <div class="numero">
+          <span>Gastado</span>
+          <strong id="n-gastado">…</strong>
+        </div>
+        <div class="numero">
+          <span>Presupuesto sí o sí</span>
+          <strong id="n-si-o-si">…</strong>
+        </div>
+        <div class="numero">
+          <span>Libre para gastar</span>
+          <strong id="n-libre">…</strong>
+        </div>
+      </div>
+      <div class="numero grande">
+        <span>Me queda</span>
+        <strong id="n-me-queda">…</strong>
+      </div>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Categorías</h2>
+      <ul id="lista-categorias" class="lista categorias"></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Último registro</h2>
+      <p id="ultimo-registro" class="ultimo">…</p>
+    </section>
+  </main>
+
   <!-- Pantalla de ciclo: cargar el ciclo nuevo cuando cobrás, o corregir uno -->
   <main id="pantalla-ciclo" class="pantalla" hidden>
     <header class="barra">
@@ -153,6 +202,7 @@
   <!-- Menú de abajo, para pasar de una pantalla a otra -->
   <nav id="menu" class="menu" hidden>
     <button type="button" data-pantalla="carga" class="activo">Cargar</button>
+    <button type="button" data-pantalla="inicio">Inicio</button>
     <button type="button" data-pantalla="ciclo">Ciclo</button>
   </nav>
 
@@ -161,5 +211,6 @@
   <script src="montos.js"></script>
   <script src="app.js"></script>
   <script src="ciclo.js"></script>
+  <script src="inicio.js"></script>
 </body>
 </html>

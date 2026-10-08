@@ -19,10 +19,12 @@ function mostrar(pantalla) {
   $("pantalla-login").hidden = pantalla !== "login";
   $("pantalla-carga").hidden = pantalla !== "carga";
   $("pantalla-ciclo").hidden = pantalla !== "ciclo";
+  $("pantalla-inicio").hidden = pantalla !== "inicio";
   $("menu").hidden = pantalla === "login";
   document.querySelectorAll("#menu button").forEach((b) => b.classList.toggle("activo", b.dataset.pantalla === pantalla));
   window.scrollTo(0, 0);
   if (pantalla === "ciclo") abrirCiclo();
+  if (pantalla === "inicio") abrirInicio();
 }
 
 $("menu").addEventListener("click", (e) => {

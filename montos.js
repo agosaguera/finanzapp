@@ -36,4 +36,11 @@ function formatearMonto(n, divisa) {
   return (divisa === "USD" ? "US$ " : "$ ") + texto;
 }
 
-if (typeof module !== "undefined") module.exports = { leerMonto, formatearMonto };
+// Para los tableros: pesos sin centavos y con signo si es negativo
+//   -295175.4 → "−$ 295.175"
+function formatearPesos(n) {
+  const texto = Math.abs(Math.round(n)).toLocaleString("es-AR");
+  return (n < -0.5 ? "−$ " : "$ ") + texto;
+}
+
+if (typeof module !== "undefined") module.exports = { leerMonto, formatearMonto, formatearPesos };
