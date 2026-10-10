@@ -36,6 +36,7 @@
       <button id="boton-salir" class="boton-chico" type="button">Salir</button>
     </header>
 
+    <p id="aviso-edicion" class="aviso-edicion" hidden></p>
     <form id="form-carga" class="tarjeta" novalidate>
       <div class="segmentado" role="radiogroup" aria-label="Tipo">
         <input type="radio" name="tipo" id="tipo-gasto" value="Gasto" checked>
@@ -100,12 +101,15 @@
       </label>
 
       <button type="submit" class="boton-principal" id="boton-guardar">Guardar</button>
+      <button type="button" class="boton-chico" id="boton-cancelar-edicion" hidden>Cancelar edición</button>
       <p id="carga-mensaje" class="mensaje" aria-live="polite" hidden></p>
     </form>
 
     <section class="tarjeta">
       <h2>Últimos cargados</h2>
+      <p class="ayuda ayuda-lista">Tocá uno para editarlo.</p>
       <ul id="lista-ultimos" class="lista"></ul>
+      <button type="button" class="boton-chico" id="boton-ver-mas">Ver más</button>
     </section>
   </main>
 
@@ -339,6 +343,44 @@
       <button type="submit" class="boton-principal" id="boton-guardar-ciclo">Guardar ciclo</button>
       <p id="ciclo-mensaje" class="mensaje" aria-live="polite" hidden></p>
     </form>
+
+    <section class="tarjeta">
+      <h2>Tus fijos</h2>
+      <p class="ayuda ayuda-lista">Tocá uno para cambiarle el monto o cancelarlo.</p>
+      <ul id="lista-fijos" class="lista fijos"></ul>
+      <p id="fijos-aviso" class="mensaje ok" aria-live="polite" hidden></p>
+    </section>
+
+    <form id="panel-fijo" class="tarjeta" novalidate hidden>
+      <div class="barra">
+        <h2 id="fijo-titulo">Fijo</h2>
+        <button type="button" class="boton-chico" id="boton-cerrar-fijo">Cerrar</button>
+      </div>
+      <p id="fijo-actual" class="ayuda"></p>
+
+      <fieldset id="bloque-nuevo-monto">
+        <label>Monto nuevo
+          <input type="text" id="fijo-monto" inputmode="decimal" autocomplete="off">
+        </label>
+        <p id="fijo-monto-vista" class="vista-previa" aria-live="polite"></p>
+        <div class="segmentado" role="radiogroup" aria-label="Desde cuándo">
+          <input type="radio" name="fijo-desde" id="desde-proximo" value="proximo" checked>
+          <label for="desde-proximo">Próximo ciclo</label>
+          <input type="radio" name="fijo-desde" id="desde-actual" value="actual">
+          <label for="desde-actual">Ciclo en curso</label>
+        </div>
+        <p class="ayuda ayuda-lista">Los ciclos anteriores quedan con el monto viejo.</p>
+        <button type="button" class="boton-principal" id="boton-guardar-monto">Guardar monto nuevo</button>
+      </fieldset>
+
+      <fieldset>
+        <label id="fijo-fin-etiqueta">Último pago
+          <input type="date" id="fijo-fin">
+        </label>
+        <button type="button" class="boton-chico" id="boton-guardar-fin">Cancelar este fijo</button>
+      </fieldset>
+      <p id="fijo-mensaje" class="mensaje" aria-live="polite" hidden></p>
+    </form>
   </main>
 
   <!-- Menú de abajo, para pasar de una pantalla a otra -->
@@ -355,6 +397,7 @@
   <script src="montos.js"></script>
   <script src="app.js"></script>
   <script src="ciclo.js"></script>
+  <script src="fijos.js"></script>
   <script src="inicio.js"></script>
   <script src="semanal.js"></script>
   <script src="cuotas.js"></script>

@@ -151,6 +151,7 @@ $("form-carga").addEventListener("submit", async (e) => {
   if (fechaFin && fechaFin < fechaInicio) return mensaje("El último pago no puede ser antes de la fecha de inicio.", "error");
 
   $("boton-guardar").disabled = true;
+  const editando = editandoId;
   const fila = {
     tipo: valorDe("tipo"),
     monto,
@@ -164,14 +165,17 @@ $("form-carga").addEventListener("submit", async (e) => {
     fecha_fin: fechaFin,
     esencial: $("esencial").checked,
   };
-  const { error } = await db.from("movimientos").insert(fila);
+  const { error } = editando
+    ? await db.from("movimientos").update(fila).eq("id", editando)
+    : await db.from("movimientos").insert(fila);
   $("boton-guardar").disabled = false;
 
   if (error) {
     mensaje("No se guardó: " + error.message, "error");
     return;
   }
-  mensaje(`Guardado: ${fila.detalle.trim()}, ${formatearMonto(monto, fila.divisa)}`, "ok");
+  if (editando) salirDeEdicion();
+  mensaje(`${editando ? "Cambios guardados" : "Guardado"}: ${fila.detalle.trim()}, ${formatearMonto(monto, fila.divisa)}`, "ok");
   // Se limpia lo que cambia de un gasto a otro; tipo, categoría y método quedan
   $("monto").value = "";
   $("detalle").value = "";
@@ -182,13 +186,15 @@ $("form-carga").addEventListener("submit", async (e) => {
 
 // ------------------------------------------------------------- últimos
 
+let cuantosUltimos = 5;
+
 async function cargarUltimos() {
   const { data, error } = await db
     .from("movimientos")
     .select("id, detalle, monto, divisa, categoria, fecha_inicio, marca_temporal")
     .order("marca_temporal", { ascending: false })
     .order("id", { ascending: false })
-    .limit(5);
+    .limit(cuantosUltimos);
   const ul = $("lista-ultimos");
   if (error) {
     ul.innerHTML = '<li class="vacio">No pude leer los últimos movimientos.</li>';
@@ -198,9 +204,10 @@ async function cargarUltimos() {
     ul.innerHTML = '<li class="vacio">Sin datos todavía.</li>';
     return;
   }
+  $("boton-ver-mas").hidden = data.length < cuantosUltimos;
   ul.innerHTML = data.map((m) => `
-    <li>
-      <div class="crece">
+    <li class="${m.id === editandoId ? "elegida" : ""}">
+      <div class="crece editable" data-id="${m.id}" role="button" tabindex="0">
         <strong>${escapar(m.detalle)}</strong>
         <small>${escapar(m.categoria)} · ${m.fecha_inicio.split("-").reverse().join("/")}</small>
       </div>
@@ -209,15 +216,93 @@ async function cargarUltimos() {
     </li>`).join("");
 }
 
+$("boton-ver-mas").addEventListener("click", () => {
+  cuantosUltimos += 15;
+  cargarUltimos();
+});
+
 $("lista-ultimos").addEventListener("click", async (e) => {
+  const editar = e.target.closest(".editable");
+  if (editar) return editarMovimiento(Number(editar.dataset.id));
   const boton = e.target.closest(".boton-borrar");
   if (!boton) return;
   const nombre = boton.closest("li").querySelector("strong").textContent;
   if (!confirm(`¿Borrar "${nombre}"? No se puede deshacer.`)) return;
   const { error } = await db.from("movimientos").delete().eq("id", Number(boton.dataset.id));
   if (error) return mensaje("No se borró: " + error.message, "error");
+  if (Number(boton.dataset.id) === editandoId) salirDeEdicion();
   mensaje(`Borrado: ${nombre}`, "ok");
   cargarUltimos();
+});
+
+$("lista-ultimos").addEventListener("keydown", (e) => {
+  const editar = e.target.closest(".editable");
+  if (editar && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); editarMovimiento(Number(editar.dataset.id)); }
+});
+
+// ------------------------------------------------------------- editar
+
+// Editar usa el mismo formulario de carga: se llena con el movimiento
+// y "Guardar" pasa a guardar los cambios en vez de crear uno nuevo.
+let editandoId = null;
+
+function marcarRadio(nombre, valor) {
+  const r = document.querySelector(`input[name="${nombre}"][value="${valor}"]`);
+  if (r) r.checked = true;
+}
+
+async function editarMovimiento(id) {
+  const { data, error } = await db.from("movimientos").select("*").eq("id", id).limit(1);
+  if (error || !data.length) return mensaje("No pude abrir ese movimiento.", "error");
+  const m = data[0];
+  editandoId = id;
+  marcarRadio("tipo", m.tipo);
+  marcarRadio("divisa", m.divisa);
+  marcarRadio("fijo-variable", m.fijo_variable);
+  marcarRadio("modalidad", m.modalidad || "Recurrente");
+  $("monto").value = Number(m.monto).toLocaleString("es-AR", { maximumFractionDigits: 2 });
+  $("detalle").value = m.detalle;
+  if (![...$("categoria").options].some((o) => o.value === m.categoria)) {
+    $("categoria").insertAdjacentHTML("beforeend", `<option>${escapar(m.categoria)}</option>`); // categoría ya desactivada
+  }
+  $("categoria").value = m.categoria;
+  $("metodo-pago").value = m.metodo_pago || "";
+  $("fecha-inicio").value = m.fecha_inicio;
+  $("fecha-fin").value = m.fijo_variable === "Fijo" ? m.fecha_fin || "" : "";
+  $("esencial").checked = !!m.esencial;
+  actualizarBloqueFijo();
+  actualizarVistaMonto();
+  $("boton-guardar").textContent = "Guardar cambios";
+  $("boton-cancelar-edicion").hidden = false;
+  $("aviso-edicion").textContent = m.fijo_variable === "Fijo"
+    ? `Editando: ${m.detalle}. Ojo: cambiar el monto acá cambia todos los meses. Para un aumento desde ahora, usá Ciclo → Tus fijos.`
+    : `Editando: ${m.detalle}`;
+  $("aviso-edicion").hidden = false;
+  $("carga-mensaje").hidden = true;
+  document.querySelectorAll("#lista-ultimos li").forEach((li) =>
+    li.classList.toggle("elegida", li.querySelector(".editable")?.dataset.id === String(id)));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function salirDeEdicion() {
+  editandoId = null;
+  $("boton-guardar").textContent = "Guardar";
+  $("boton-cancelar-edicion").hidden = true;
+  $("aviso-edicion").hidden = true;
+  $("monto").value = "";
+  $("detalle").value = "";
+  $("fecha-inicio").value = hoy();
+  $("fecha-fin").value = "";
+  marcarRadio("fijo-variable", "Variable");
+  $("esencial").checked = false;
+  actualizarBloqueFijo();
+  actualizarVistaMonto();
+  document.querySelectorAll("#lista-ultimos li.elegida").forEach((li) => li.classList.remove("elegida"));
+}
+
+$("boton-cancelar-edicion").addEventListener("click", () => {
+  salirDeEdicion();
+  $("carga-mensaje").hidden = true;
 });
 
 // ------------------------------------------------------------- arranque

@@ -85,9 +85,10 @@ join ciclos_con_fin c
  and coalesce(m.fecha_fin, 'infinity'::date) >= c.fecha_inicio
 join categorias cat on cat.nombre = m.categoria
 left join lateral (
-  -- el último cambio de monto que ya regía al terminar el ciclo
+  -- el último cambio de monto que ya regía cuando empezó el ciclo
+  -- (un cambio "desde el próximo ciclo" no toca el ciclo en curso)
   select x.monto from cambios_monto x
-  where x.movimiento_id = m.id and x.desde <= c.fin_calculo
+  where x.movimiento_id = m.id and x.desde <= c.fecha_inicio
   order by x.desde desc
   limit 1
 ) cm on true;

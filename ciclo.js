@@ -72,6 +72,7 @@ async function abrirCiclo() {
     ciclos.map((x) => `<option value="${escapar(x.nombre)}">Corregir ${escapar(x.nombre)}</option>`).join("");
   $("ciclo-elegido").value = NUEVO;
   prepararFormulario();
+  abrirFijos();
 }
 
 function prepararFormulario() {

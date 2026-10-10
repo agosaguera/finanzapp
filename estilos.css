@@ -284,3 +284,13 @@ input.invalido { border-color: var(--error); outline-color: var(--error); }
 .ayuda-lista { margin: -4px 0 0; }
 .categorias .fila small { color: var(--suave); font-weight: 400; }
 .numero.separado strong { font-size: 1.3rem; }
+
+/* Versión 2, ronda 2: editar */
+.aviso-edicion { margin: 0 0 12px; padding: 10px 12px; border-radius: 10px; background: var(--campo); border: 1px solid var(--marca); font-size: 0.9rem; }
+.aviso-edicion[hidden] { display: none; }
+.editable { cursor: pointer; }
+#lista-ultimos li.elegida, .fijos li.elegida { background: var(--campo); }
+.fijos li { cursor: pointer; }
+.fijos small { display: block; }
+.fijos small.ok { color: var(--ok); }
+#boton-ver-mas[hidden], #boton-cancelar-edicion[hidden] { display: none; }
