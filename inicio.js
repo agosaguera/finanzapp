@@ -107,7 +107,7 @@ function mostrarSinPresupuesto(conPresupuesto, gas) {
     return `
     <li>
       <div class="fila">
-        <span>${escapar(g.categoria)}</span>
+        <span>${escapar(conEmoji(g.categoria))}</span>
         <span class="importe">${formatearPesos(Number(g.total))}</span>
       </div>
       ${fijos > 0 ? `<div class="detalle"><span>${fijos === Number(g.total) ? "Todo fijo" : `Incluye ${formatearPesos(fijos)} de fijos`}</span></div>` : ""}
@@ -128,7 +128,7 @@ function filaCategoria(c) {
   return `
     <li>
       <div class="fila">
-        <span>${escapar(c.categoria)}</span>
+        <span>${escapar(conEmoji(c.categoria))}</span>
         <span class="estado ${clase}">${escapar(c.estado)}</span>
       </div>
       <div class="detalle">

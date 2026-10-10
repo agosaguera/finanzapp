@@ -112,7 +112,7 @@ function filaReserva(c) {
   return `
     <li class="${c.categoria === categoriaElegida ? "elegida" : ""}" data-categoria="${escapar(c.categoria)}" role="button" tabindex="0">
       <div class="fila">
-        <span>${escapar(c.categoria)}</span>
+        <span>${escapar(conEmoji(c.categoria))}</span>
         <span class="estado ${clase === "verde" ? "bien" : clase === "rojo" ? "paso" : "sin-datos"}">${escapar(c.estado)}</span>
       </div>
       <div class="detalle">

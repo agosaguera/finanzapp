@@ -95,7 +95,7 @@ function barras(id, cats, campo, tipo) {
   const clase = tipo === "Fijo" ? "fijo" : tipo === "Variable" ? "variable" : "total";
   ul.innerHTML = filas.map((c) => `
     <li data-categoria="${escapar(c.categoria)}" data-tipo="${tipo || ""}" role="button" tabindex="0">
-      <div class="fila"><span>${escapar(c.categoria)}</span><span>${formatearPesos(Number(c[campo]))}</span></div>
+      <div class="fila"><span>${escapar(conEmoji(c.categoria))}</span><span>${formatearPesos(Number(c[campo]))}</span></div>
       <div class="pista"><div class="${clase}" style="width:${(Number(c[campo]) / maximo) * 100}%"></div></div>
     </li>`).join("");
 }

@@ -294,3 +294,31 @@ input.invalido { border-color: var(--error); outline-color: var(--error); }
 .fijos small { display: block; }
 .fijos small.ok { color: var(--ok); }
 #boton-ver-mas[hidden], #boton-cancelar-edicion[hidden] { display: none; }
+
+/* Versión 2, ronda 3: buscador, calculadora y categorías */
+.campo-categoria { display: flex; flex-direction: column; gap: 6px; }
+.campo-categoria > label { font-size: 0.875rem; color: var(--suave); }
+input[type="search"] {
+  font: inherit; font-size: 16px; color: var(--texto); background: var(--campo);
+  border: 1px solid var(--borde); border-radius: 10px; padding: 12px; min-height: 48px; width: 100%;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips:empty { display: none; }
+.chips .vacio { color: var(--suave); font-size: 0.875rem; }
+.chip {
+  font: inherit; font-size: 0.95rem; color: var(--texto); background: var(--tarjeta);
+  border: 1px solid var(--borde); border-radius: 999px; padding: 8px 12px; min-height: 40px; cursor: pointer;
+}
+.chip:active { background: var(--campo); border-color: var(--marca); }
+.operaciones { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: -6px; }
+.operaciones button {
+  font: inherit; font-size: 1.15rem; color: var(--texto); background: var(--campo);
+  border: 1px solid var(--borde); border-radius: 10px; min-height: 40px; cursor: pointer;
+}
+.operaciones button:active { border-color: var(--marca); }
+.fila-emoji { display: flex; gap: 10px; align-items: flex-end; }
+.campo-emoji { width: 5rem; flex: none; }
+.campo-emoji input { text-align: center; font-size: 1.4rem; }
+#lista-categorias-admin li { cursor: pointer; }
+#lista-categorias-admin li.inactiva strong { color: var(--suave); font-weight: 400; }
+#lista-categorias-admin li.elegida { background: var(--campo); }

@@ -73,6 +73,7 @@ async function abrirCiclo() {
   $("ciclo-elegido").value = NUEVO;
   prepararFormulario();
   abrirFijos();
+  abrirCategorias();
 }
 
 function prepararFormulario() {
