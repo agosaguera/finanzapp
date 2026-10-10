@@ -274,3 +274,13 @@ input.invalido { border-color: var(--error); outline-color: var(--error); }
 .barras .fila span:last-child { white-space: nowrap; }
 .barras .pista { height: 10px; border-radius: 5px; background: var(--campo); overflow: hidden; }
 .barras .pista div { height: 100%; border-radius: 5px; min-width: 2px; }
+
+/* Versión 2: jerarquía en Inicio */
+.numeros.principales strong { font-size: clamp(1.2rem, 6.2vw, 1.6rem); }
+.numero small { color: var(--suave); font-size: 0.8rem; line-height: 1.3; }
+.numero.separado, .numeros.separado { border-top: 1px solid var(--borde); padding-top: 12px; }
+.numeros.secundarios { align-items: start; }
+.numeros.secundarios strong { font-size: 1rem; }
+.ayuda-lista { margin: -4px 0 0; }
+.categorias .fila small { color: var(--suave); font-weight: 400; }
+.numero.separado strong { font-size: 1.3rem; }

@@ -123,33 +123,43 @@
     <p id="inicio-mensaje" class="mensaje error" hidden></p>
 
     <section class="tarjeta">
-      <div class="numeros">
+      <div class="numeros principales">
         <div class="numero">
           <span>Ingresos</span>
           <strong id="n-ingresos">…</strong>
         </div>
         <div class="numero">
-          <span>Gastado</span>
+          <span>Gastado hasta ahora</span>
           <strong id="n-gastado">…</strong>
         </div>
-        <div class="numero">
-          <span>Presupuesto sí o sí</span>
-          <strong id="n-si-o-si">…</strong>
-        </div>
-        <div class="numero">
-          <span>Libre para gastar</span>
-          <strong id="n-libre">…</strong>
-        </div>
       </div>
-      <div class="numero grande">
+      <div class="numero separado">
         <span>Me queda</span>
         <strong id="n-me-queda">…</strong>
+        <small>Ingresos menos lo gastado hasta ahora.</small>
+      </div>
+      <div class="numeros secundarios separado">
+        <div class="numero">
+          <span>Presupuesto planificado</span>
+          <strong id="n-si-o-si">…</strong>
+          <small>Tus fijos del ciclo más lo que asignaste a las 8 categorías.</small>
+        </div>
+        <div class="numero">
+          <span>Restante del presupuesto</span>
+          <strong id="n-libre">…</strong>
+          <small>Ingresos menos lo planificado: el pozo para todo lo demás.</small>
+        </div>
       </div>
     </section>
 
     <section class="tarjeta">
-      <h2>Categorías</h2>
+      <h2>Categorías con presupuesto</h2>
       <ul id="lista-categorias" class="lista categorias"></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Categorías sin presupuesto</h2>
+      <ul id="lista-sin-presupuesto" class="lista categorias"></ul>
     </section>
 
     <section class="tarjeta">
@@ -223,7 +233,7 @@
     <section class="tarjeta">
       <div class="numeros">
         <div class="numero">
-          <span>Libre en el ciclo</span>
+          <span>Restante del presupuesto</span>
           <strong id="n-libre-ciclo">…</strong>
         </div>
         <div class="numero">
@@ -231,16 +241,22 @@
           <strong id="n-por-semana">…</strong>
         </div>
       </div>
-      <p class="ayuda">Cuenta solo los variables de las categorías sin presupuesto propio.</p>
     </section>
 
     <section class="tarjeta">
-      <h2>Semanas</h2>
+      <h2>Categorías</h2>
+      <p class="ayuda ayuda-lista">Lo que te queda de cada una. Tocá una para ver sus gastos.</p>
+      <ul id="semanal-categorias" class="lista semanas"></ul>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Pozo semanal</h2>
+      <p class="ayuda ayuda-lista">Todo lo que no tiene categoría con presupuesto, semana por semana.</p>
       <ul id="lista-semanas" class="lista semanas"></ul>
     </section>
 
     <section class="tarjeta" id="bloque-semana" hidden>
-      <h2 id="titulo-semana">Gastos de la semana</h2>
+      <h2 id="titulo-semana">Gastos</h2>
       <ul id="lista-semana" class="lista"></ul>
     </section>
   </main>

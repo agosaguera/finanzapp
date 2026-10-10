@@ -73,17 +73,46 @@ async function mostrarCiclo() {
   else mensajeInicio("");
 
   const ul = $("lista-categorias");
-  const { data, error } = await db.from("categorias_ciclo").select("*").eq("ciclo", cicloInicio).order("categoria");
+  const [cat, gas] = await Promise.all([
+    db.from("categorias_ciclo").select("*").eq("ciclo", cicloInicio).order("categoria"),
+    db.from("gastos_por_categoria").select("*").eq("ciclo", cicloInicio),
+  ]);
   if (cicloInicio !== x.ciclo) return; // cambiaste de ciclo mientras cargaba
-  if (error) {
+  if (cat.error) {
     ul.innerHTML = '<li class="vacio">No pude leer las categorías.</li>';
-    return;
-  }
-  if (!data.length) {
+  } else if (!cat.data.length) {
     ul.innerHTML = '<li class="vacio">Sin datos.</li>';
+  } else {
+    ul.innerHTML = cat.data.map(filaCategoria).join("");
+  }
+  mostrarSinPresupuesto(cat.error ? [] : cat.data.map((c) => c.categoria), gas);
+}
+
+// Las categorías sin presupuesto propio (Extras, Desconocidos…), de mayor a menor
+function mostrarSinPresupuesto(conPresupuesto, gas) {
+  const ul = $("lista-sin-presupuesto");
+  if (gas.error) {
+    ul.innerHTML = '<li class="vacio">No pude leer los gastos.</li>';
     return;
   }
-  ul.innerHTML = data.map(filaCategoria).join("");
+  const filas = gas.data
+    .filter((g) => !conPresupuesto.includes(g.categoria) && Number(g.total) > 0)
+    .sort((a, b) => Number(b.total) - Number(a.total));
+  if (!filas.length) {
+    ul.innerHTML = '<li class="vacio">Sin gastos en este ciclo.</li>';
+    return;
+  }
+  ul.innerHTML = filas.map((g) => {
+    const fijos = Number(g.fijos);
+    return `
+    <li>
+      <div class="fila">
+        <span>${escapar(g.categoria)}</span>
+        <span class="importe">${formatearPesos(Number(g.total))}</span>
+      </div>
+      ${fijos > 0 ? `<div class="detalle"><span>${fijos === Number(g.total) ? "Todo fijo" : `Incluye ${formatearPesos(fijos)} de fijos`}</span></div>` : ""}
+    </li>`;
+  }).join("");
 }
 
 function filaCategoria(c) {
