@@ -6,6 +6,11 @@
 //   ultimo_registro   → lo último que cargaste
 // =====================================================================
 
+// Alerta de Desconocidos: qué parte de tus gastos variables no sabés en qué fue.
+// Amarillo desde el 5 %, rojo desde el 10 %. Para cambiar los límites, tocá estos números.
+const DESCONOCIDOS_AMARILLO = 0.05;
+const DESCONOCIDOS_ROJO = 0.10;
+
 let resumenes = [];       // resumen_ciclo, del más nuevo al más viejo
 let cicloInicio = null;   // el ciclo elegido; al entrar, el que está en curso
 
@@ -86,6 +91,24 @@ async function mostrarCiclo() {
     ul.innerHTML = cat.data.map(filaCategoria).join("");
   }
   mostrarSinPresupuesto(cat.error ? [] : cat.data.map((c) => c.categoria), gas);
+  mostrarAlertaDesconocidos(gas);
+}
+
+function mostrarAlertaDesconocidos(gas) {
+  const p = $("alerta-desconocidos");
+  p.hidden = true;
+  if (gas.error) return;
+  const variables = gas.data.reduce((t, g) => t + Number(g.variables), 0);
+  const fila = gas.data.find((g) => g.categoria === "Desconocidos");
+  const desconocido = fila ? Number(fila.variables) : 0;
+  if (variables <= 0 || desconocido <= 0) return;
+  const parte = desconocido / variables;
+  if (parte < DESCONOCIDOS_AMARILLO) return;
+  const rojo = parte >= DESCONOCIDOS_ROJO;
+  p.className = "alerta " + (rojo ? "rojo" : "amarillo");
+  p.textContent = `${conEmoji("Desconocidos")}: ${formatearPesos(desconocido)}, el ${Math.round(parte * 100)} % de tus gastos variables. ` +
+    (rojo ? "¡Ey, tenés que anotar todo!" : "Ojo, intentá anotar en qué se va.");
+  p.hidden = false;
 }
 
 // Las categorías sin presupuesto propio (Extras, Desconocidos…), de mayor a menor

@@ -322,3 +322,9 @@ input[type="search"] {
 #lista-categorias-admin li { cursor: pointer; }
 #lista-categorias-admin li.inactiva strong { color: var(--suave); font-weight: 400; }
 #lista-categorias-admin li.elegida { background: var(--campo); }
+
+/* Versión 2, ronda 4: alerta de Desconocidos */
+.alerta { margin: 0 0 16px; padding: 12px 14px; border-radius: 12px; font-weight: 500; border: 1px solid; }
+.alerta[hidden] { display: none; }
+.alerta.amarillo { color: var(--amarillo); border-color: var(--amarillo); background: var(--tarjeta); }
+.alerta.rojo { color: var(--error); border-color: var(--error); background: var(--tarjeta); }
