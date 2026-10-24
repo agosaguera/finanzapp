@@ -257,7 +257,7 @@ async function cargarUltimos() {
   const { data, error } = await db
     .from("movimientos")
     .select("id, detalle, monto, divisa, categoria, fecha_inicio, marca_temporal")
-    .order("marca_temporal", { ascending: false })
+    .order(valorDe("orden-ultimos") === "fecha" ? "fecha_inicio" : "marca_temporal", { ascending: false })
     .order("id", { ascending: false })
     .limit(cuantosUltimos);
   const ul = $("lista-ultimos");
@@ -280,6 +280,12 @@ async function cargarUltimos() {
       <button type="button" class="boton-borrar" data-id="${m.id}" aria-label="Borrar ${escapar(m.detalle)}">✕</button>
     </li>`).join("");
 }
+
+// Ordenar por cuándo lo cargaste o por la fecha del gasto
+document.querySelectorAll('input[name="orden-ultimos"]').forEach((r) => r.addEventListener("change", () => {
+  cuantosUltimos = 5;
+  cargarUltimos();
+}));
 
 $("boton-ver-mas").addEventListener("click", () => {
   cuantosUltimos += 15;

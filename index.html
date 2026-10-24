@@ -116,7 +116,13 @@
     </form>
 
     <section class="tarjeta">
-      <h2>Últimos cargados</h2>
+      <h2>Movimientos cargados</h2>
+      <div class="segmentado chico" role="radiogroup" aria-label="Ordenar por">
+        <input type="radio" name="orden-ultimos" id="orden-carga" value="carga" checked>
+        <label for="orden-carga">Últimos cargados</label>
+        <input type="radio" name="orden-ultimos" id="orden-fecha" value="fecha">
+        <label for="orden-fecha">Por fecha del gasto</label>
+      </div>
       <p class="ayuda ayuda-lista">Tocá uno para editarlo.</p>
       <ul id="lista-ultimos" class="lista"></ul>
       <button type="button" class="boton-chico" id="boton-ver-mas">Ver más</button>
@@ -426,6 +432,11 @@
           <input type="date" id="fijo-fin">
         </label>
         <button type="button" class="boton-chico" id="boton-guardar-fin">Cancelar este fijo</button>
+      </fieldset>
+
+      <fieldset>
+        <p class="ayuda ayuda-lista">¿Lo cargaste mal desde el principio (monto, cantidad de cuotas, categoría)? Corregilo: el cambio vale para todos los meses.</p>
+        <button type="button" class="boton-chico" id="boton-corregir-fijo">Corregir un error</button>
       </fieldset>
       <p id="fijo-mensaje" class="mensaje" aria-live="polite" hidden></p>
     </form>

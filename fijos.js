@@ -163,3 +163,12 @@ $("boton-guardar-fin").addEventListener("click", async () => {
     ? `Listo: ${f.detalle} ya no aparece en tus fijos vigentes.`
     : `Listo: el último pago de ${f.detalle} es el ${fechaCorta(fin)}.`, "ok");
 });
+
+// Corregir un error de carga: abre el fijo en el formulario de Cargar.
+// Ahí se cambia todo (monto, último pago, categoría) para todos los meses.
+$("boton-corregir-fijo").addEventListener("click", async () => {
+  const id = fijoElegido.id;
+  cerrarPanelFijo();
+  mostrar("carga");
+  await editarMovimiento(id);
+});
