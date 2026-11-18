@@ -24,9 +24,8 @@ function mostrar(pantalla) {
   $("pantalla-cuotas").hidden = pantalla !== "cuotas";
   $("pantalla-analisis").hidden = pantalla !== "analisis";
   $("menu").hidden = pantalla === "login";
-  // Análisis no tiene botón propio: se abre desde Inicio
-  const enMenu = pantalla === "analisis" ? "inicio" : pantalla;
-  document.querySelectorAll("#menu button").forEach((b) => b.classList.toggle("activo", b.dataset.pantalla === enMenu));
+  cerrarMenu();
+  document.querySelectorAll("#menu [data-pantalla]").forEach((b) => b.classList.toggle("activo", b.dataset.pantalla === pantalla));
   window.scrollTo(0, 0);
   if (pantalla === "ciclo") abrirCiclo();
   if (pantalla === "inicio") abrirInicio();
@@ -35,9 +34,42 @@ function mostrar(pantalla) {
   if (pantalla === "analisis") abrirAnalisis();
 }
 
-$("menu").addEventListener("click", (e) => {
-  const boton = e.target.closest("button[data-pantalla]");
+// Cualquier botón con data-pantalla lleva a esa pantalla (menú, atajos, tarjeta de la dona)
+document.addEventListener("click", (e) => {
+  const boton = e.target.closest("[data-pantalla]");
   if (boton) mostrar(boton.dataset.pantalla);
+});
+
+// Menú lateral: se abre con las tres rayitas y se cierra tocando afuera, la cruz o Escape
+function abrirMenu() {
+  $("cajon").hidden = false;
+  $("velo").hidden = false;
+  document.querySelectorAll("[aria-controls=cajon]").forEach((b) => b.setAttribute("aria-expanded", "true"));
+  requestAnimationFrame(() => document.body.classList.add("menu-abierto"));
+  ($("cajon").querySelector(".activo") || $("cajon").querySelector("button")).focus({ preventScroll: true });
+}
+function cerrarMenu() {
+  if ($("cajon").hidden) return;
+  document.body.classList.remove("menu-abierto");
+  document.querySelectorAll("[aria-controls=cajon]").forEach((b) => b.setAttribute("aria-expanded", "false"));
+  $("cajon").hidden = true;
+  $("velo").hidden = true;
+}
+document.querySelectorAll(".hambur, .hambur-abajo").forEach((b) => b.addEventListener("click", abrirMenu));
+$("velo").addEventListener("click", cerrarMenu);
+document.querySelector(".cerrar-cajon").addEventListener("click", cerrarMenu);
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") cerrarMenu(); });
+
+// Acordeones: el celu recuerda cuáles dejaste abiertos y cuáles cerrados
+document.querySelectorAll("details[data-recordar]").forEach((d) => {
+  const clave = "acordeon-" + d.dataset.recordar;
+  try {
+    const guardado = localStorage.getItem(clave);
+    if (guardado !== null) d.open = guardado === "1";
+  } catch (_) { /* sin memoria del navegador: queda como viene */ }
+  d.addEventListener("toggle", () => {
+    try { localStorage.setItem(clave, d.open ? "1" : "0"); } catch (_) {}
+  });
 });
 
 function mensaje(texto, tipo) {

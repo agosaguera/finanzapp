@@ -3,13 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0f766e">
+  <meta name="theme-color" content="#c6ec4a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Finanzas">
   <title>Finanzas</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icono.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="icono-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
@@ -31,13 +34,13 @@
 
   <!-- Pantalla de carga: lo primero que ves con la sesión abierta -->
   <main id="pantalla-carga" class="pantalla" hidden>
-    <header class="barra">
+    <header class="cabecera">
+      <button type="button" class="hambur" aria-label="Abrir el menú" aria-controls="cajon" aria-expanded="false"><span></span></button>
       <h1>Cargar</h1>
-      <button id="boton-salir" class="boton-chico" type="button">Salir</button>
     </header>
 
     <p id="aviso-edicion" class="aviso-edicion" hidden></p>
-    <form id="form-carga" class="tarjeta" novalidate>
+    <form id="form-carga" class="tarjeta sobre-cabecera" novalidate>
       <div class="segmentado" role="radiogroup" aria-label="Tipo">
         <input type="radio" name="tipo" id="tipo-gasto" value="Gasto" checked>
         <label for="tipo-gasto">Gasto</label>
@@ -115,9 +118,9 @@
       <p id="carga-mensaje" class="mensaje" aria-live="polite" hidden></p>
     </form>
 
-    <section class="tarjeta">
-      <h2>Movimientos cargados</h2>
-      <div class="segmentado chico" role="radiogroup" aria-label="Ordenar por">
+    <details class="tarjeta acordeon" data-recordar="movimientos-cargados" open>
+      <summary><h2>Movimientos cargados</h2></summary>
+      <div class="contenido">      <div class="segmentado chico" role="radiogroup" aria-label="Ordenar por">
         <input type="radio" name="orden-ultimos" id="orden-carga" value="carga" checked>
         <label for="orden-carga">Últimos cargados</label>
         <input type="radio" name="orden-ultimos" id="orden-fecha" value="fecha">
@@ -126,23 +129,28 @@
       <p class="ayuda ayuda-lista">Tocá uno para editarlo.</p>
       <ul id="lista-ultimos" class="lista"></ul>
       <button type="button" class="boton-chico" id="boton-ver-mas">Ver más</button>
-    </section>
+      </div>
+    </details>
   </main>
 
   <!-- Pantalla de inicio: cómo viene el ciclo -->
   <main id="pantalla-inicio" class="pantalla" hidden>
-    <header class="barra">
-      <h1>Inicio</h1>
+    <header class="cabecera">
+      <button type="button" class="hambur" aria-label="Abrir el menú" aria-controls="cajon" aria-expanded="false"><span></span></button>
+      <h1>Hola, Agos</h1>
+      <label class="selector-ciclo"><span class="oculto">Ciclo</span>
+        <select id="inicio-ciclo"></select>
+      </label>
+      <div class="dato-cabecera">
+        <span>Me queda</span>
+        <strong id="n-me-queda">…</strong>
+        <small>Ingresos menos lo gastado hasta ahora · <span id="inicio-fechas"></span></small>
+      </div>
     </header>
-
-    <label class="tarjeta selector-ciclo">Ciclo
-      <select id="inicio-ciclo"></select>
-      <small id="inicio-fechas"></small>
-    </label>
 
     <p id="inicio-mensaje" class="mensaje error" hidden></p>
 
-    <section class="tarjeta">
+    <section class="tarjeta sobre-cabecera">
       <div class="numeros principales">
         <div class="numero">
           <span>Ingresos</span>
@@ -152,11 +160,6 @@
           <span>Gastado hasta ahora</span>
           <strong id="n-gastado">…</strong>
         </div>
-      </div>
-      <div class="numero separado">
-        <span>Me queda</span>
-        <strong id="n-me-queda">…</strong>
-        <small>Ingresos menos lo gastado hasta ahora.</small>
       </div>
       <div class="numeros secundarios separado">
         <div class="numero">
@@ -174,38 +177,47 @@
 
     <p id="alerta-desconocidos" class="alerta" role="status" hidden></p>
 
-    <section class="tarjeta">
-      <h2>Categorías con presupuesto</h2>
-      <ul id="lista-categorias" class="lista categorias"></ul>
-    </section>
+    <button type="button" class="tarjeta tarjeta-dona" id="tarjeta-dona" data-pantalla="analisis">
+      <span id="inicio-dona" class="dona" role="img" aria-label="Sin datos"></span>
+      <span class="dona-texto">
+        <span class="mini">En qué se va</span>
+        <span id="inicio-dona-leyenda" class="leyenda-dona"></span>
+        <span class="ver-mas">Ver el análisis →</span>
+      </span>
+    </button>
 
-    <section class="tarjeta">
-      <h2>Categorías sin presupuesto</h2>
-      <ul id="lista-sin-presupuesto" class="lista categorias"></ul>
-    </section>
+    <details class="tarjeta acordeon" data-recordar="categorias-con-presupuesto" open>
+      <summary><h2>Categorías con presupuesto</h2></summary>
+      <div class="contenido">      <ul id="lista-categorias" class="lista categorias"></ul>
+      </div>
+    </details>
 
-    <section class="tarjeta">
-      <h2>Último registro</h2>
-      <p id="ultimo-registro" class="ultimo">…</p>
-    </section>
+    <details class="tarjeta acordeon" data-recordar="categorias-sin-presupuesto">
+      <summary><h2>Categorías sin presupuesto</h2></summary>
+      <div class="contenido">      <ul id="lista-sin-presupuesto" class="lista categorias"></ul>
+      </div>
+    </details>
 
-    <button type="button" class="boton-principal boton-ancho" id="boton-analisis">Ver en qué se va la plata</button>
+    <details class="tarjeta acordeon" data-recordar="ultimo-registro">
+      <summary><h2>Último registro</h2></summary>
+      <div class="contenido">      <p id="ultimo-registro" class="ultimo">…</p>
+      </div>
+    </details>
   </main>
 
   <!-- Análisis de gastos: se abre desde Inicio, con el mismo ciclo -->
   <main id="pantalla-analisis" class="pantalla" hidden>
-    <header class="barra">
-      <h1>En qué se va</h1>
-      <button type="button" class="boton-chico" id="boton-volver-inicio">← Inicio</button>
+    <header class="cabecera">
+      <button type="button" class="hambur" aria-label="Abrir el menú" aria-controls="cajon" aria-expanded="false"><span></span></button>
+      <h1>En qué se va la plata</h1>
+      <label class="selector-ciclo"><span class="oculto">Ciclo</span>
+        <select id="analisis-ciclo"></select>
+      </label>
     </header>
-
-    <label class="tarjeta selector-ciclo">Ciclo
-      <select id="analisis-ciclo"></select>
-    </label>
 
     <p id="analisis-mensaje" class="mensaje error" hidden></p>
 
-    <section class="tarjeta">
+    <section class="tarjeta sobre-cabecera">
       <h2>Fijos y variables</h2>
       <div class="numero">
         <span>Total gastado</span>
@@ -215,20 +227,23 @@
       <div id="proporcion-leyenda" class="leyenda"></div>
     </section>
 
-    <section class="tarjeta">
-      <h2>Fijos por categoría</h2>
-      <ul id="barras-fijos" class="lista barras"></ul>
-    </section>
+    <details class="tarjeta acordeon" data-recordar="fijos-por-categoria">
+      <summary><h2>Fijos por categoría</h2></summary>
+      <div class="contenido">      <ul id="barras-fijos" class="lista barras"></ul>
+      </div>
+    </details>
 
-    <section class="tarjeta">
-      <h2>Variables por categoría</h2>
-      <ul id="barras-variables" class="lista barras"></ul>
-    </section>
+    <details class="tarjeta acordeon" data-recordar="variables-por-categoria">
+      <summary><h2>Variables por categoría</h2></summary>
+      <div class="contenido">      <ul id="barras-variables" class="lista barras"></ul>
+      </div>
+    </details>
 
-    <section class="tarjeta">
-      <h2>Total por categoría</h2>
-      <ul id="barras-total" class="lista barras"></ul>
-    </section>
+    <details class="tarjeta acordeon" data-recordar="total-por-categoria" open>
+      <summary><h2>Total por categoría</h2></summary>
+      <div class="contenido">      <ul id="barras-total" class="lista barras"></ul>
+      </div>
+    </details>
 
     <section class="tarjeta" id="bloque-detalle">
       <div class="barra">
@@ -242,17 +257,17 @@
 
   <!-- Pantalla semanal: el pozo de cada semana -->
   <main id="pantalla-semanal" class="pantalla" hidden>
-    <header class="barra">
+    <header class="cabecera">
+      <button type="button" class="hambur" aria-label="Abrir el menú" aria-controls="cajon" aria-expanded="false"><span></span></button>
       <h1>Semanal</h1>
+      <label class="selector-ciclo"><span class="oculto">Ciclo</span>
+        <select id="semanal-ciclo"></select>
+      </label>
     </header>
-
-    <label class="tarjeta selector-ciclo">Ciclo
-      <select id="semanal-ciclo"></select>
-    </label>
 
     <p id="semanal-mensaje" class="mensaje error" hidden></p>
 
-    <section class="tarjeta">
+    <section class="tarjeta sobre-cabecera">
       <div class="numeros">
         <div class="numero">
           <span>Restante del presupuesto</span>
@@ -265,17 +280,19 @@
       </div>
     </section>
 
-    <section class="tarjeta">
-      <h2>Categorías</h2>
-      <p class="ayuda ayuda-lista">Lo que te queda de cada una. Tocá una para ver sus gastos.</p>
+    <details class="tarjeta acordeon" data-recordar="reservas-por-categoria" open>
+      <summary><h2>Reservas por categoría</h2></summary>
+      <div class="contenido">      <p class="ayuda ayuda-lista">Lo que te queda de cada una. Tocá una para ver sus gastos.</p>
       <ul id="semanal-categorias" class="lista semanas"></ul>
-    </section>
+      </div>
+    </details>
 
-    <section class="tarjeta">
-      <h2>Pozo semanal</h2>
-      <p class="ayuda ayuda-lista">Todo lo que no tiene categoría con presupuesto, semana por semana.</p>
+    <details class="tarjeta acordeon" data-recordar="pozo-semanal" open>
+      <summary><h2>Pozo semanal</h2></summary>
+      <div class="contenido">      <p class="ayuda ayuda-lista">Todo lo que no tiene categoría con presupuesto, semana por semana.</p>
       <ul id="lista-semanas" class="lista semanas"></ul>
-    </section>
+      </div>
+    </details>
 
     <section class="tarjeta" id="bloque-semana" hidden>
       <h2 id="titulo-semana">Gastos</h2>
@@ -285,14 +302,15 @@
 
   <!-- Pantalla de cuotas: qué debo y cuánto margen tengo -->
   <main id="pantalla-cuotas" class="pantalla" hidden>
-    <header class="barra">
+    <header class="cabecera">
+      <button type="button" class="hambur" aria-label="Abrir el menú" aria-controls="cajon" aria-expanded="false"><span></span></button>
       <h1>Cuotas</h1>
+      <p class="bajada">Se calcula desde hoy, no depende del ciclo.</p>
     </header>
-    <p class="ayuda ayuda-arriba">Se calcula desde hoy, no depende del ciclo.</p>
 
     <p id="cuotas-mensaje" class="mensaje error" hidden></p>
 
-    <section class="tarjeta">
+    <section class="tarjeta sobre-cabecera">
       <div class="numeros">
         <div class="numero">
           <span>Total comprometido</span>
@@ -311,27 +329,31 @@
       <p id="margen-ayuda" class="ayuda"></p>
     </section>
 
-    <section class="tarjeta">
-      <h2>Tus cuotas</h2>
-      <ul id="lista-cuotas" class="lista cuotas"></ul>
-    </section>
+    <details class="tarjeta acordeon" data-recordar="tus-cuotas" open>
+      <summary><h2>Tus cuotas</h2></summary>
+      <div class="contenido">      <ul id="lista-cuotas" class="lista cuotas"></ul>
+      </div>
+    </details>
 
-    <section class="tarjeta">
-      <h2>Cuánto pagás por mes</h2>
-      <ul id="lista-proyeccion" class="lista proyeccion"></ul>
-    </section>
+    <details class="tarjeta acordeon" data-recordar="cuanto-pagas-por-mes">
+      <summary><h2>Cuánto pagás por mes</h2></summary>
+      <div class="contenido">      <ul id="lista-proyeccion" class="lista proyeccion"></ul>
+      </div>
+    </details>
   </main>
 
   <!-- Pantalla de ciclo: cargar el ciclo nuevo cuando cobrás, o corregir uno -->
   <main id="pantalla-ciclo" class="pantalla" hidden>
-    <header class="barra">
-      <h1>Ciclo</h1>
+    <header class="cabecera">
+      <button type="button" class="hambur" aria-label="Abrir el menú" aria-controls="cajon" aria-expanded="false"><span></span></button>
+      <h1>Ciclo y presupuesto</h1>
     </header>
 
-    <section class="tarjeta">
-      <h2>Tus ciclos</h2>
-      <ul id="lista-ciclos" class="lista"></ul>
-    </section>
+    <details class="tarjeta acordeon" data-recordar="tus-ciclos">
+      <summary><h2>Tus ciclos</h2></summary>
+      <div class="contenido">      <ul id="lista-ciclos" class="lista"></ul>
+      </div>
+    </details>
 
     <form id="form-ciclo" class="tarjeta" novalidate>
       <label>¿Qué ciclo?
@@ -362,15 +384,15 @@
       <p id="ciclo-mensaje" class="mensaje" aria-live="polite" hidden></p>
     </form>
 
-    <section class="tarjeta">
-      <div class="barra">
-        <h2>Categorías</h2>
+    <details class="tarjeta acordeon" data-recordar="categorias">
+      <summary><h2>Categorías</h2></summary>
+      <div class="contenido">
         <button type="button" class="boton-chico" id="boton-nueva-categoria">+ Nueva</button>
-      </div>
       <p class="ayuda ayuda-lista">Tocá una para cambiarle el nombre, el emoji o si tiene presupuesto.</p>
       <ul id="lista-categorias-admin" class="lista fijos"></ul>
       <p id="categorias-aviso" class="mensaje ok" aria-live="polite" hidden></p>
-    </section>
+      </div>
+    </details>
 
     <form id="panel-categoria" class="tarjeta" novalidate hidden>
       <div class="barra">
@@ -398,12 +420,13 @@
       <p id="categoria-mensaje" class="mensaje" aria-live="polite" hidden></p>
     </form>
 
-    <section class="tarjeta">
-      <h2>Tus fijos</h2>
-      <p class="ayuda ayuda-lista">Tocá uno para cambiarle el monto o cancelarlo.</p>
+    <details class="tarjeta acordeon" data-recordar="tus-fijos">
+      <summary><h2>Tus fijos</h2></summary>
+      <div class="contenido">      <p class="ayuda ayuda-lista">Tocá uno para cambiarle el monto o cancelarlo.</p>
       <ul id="lista-fijos" class="lista fijos"></ul>
       <p id="fijos-aviso" class="mensaje ok" aria-live="polite" hidden></p>
-    </section>
+      </div>
+    </details>
 
     <form id="panel-fijo" class="tarjeta" novalidate hidden>
       <div class="barra">
@@ -442,14 +465,36 @@
     </form>
   </main>
 
-  <!-- Menú de abajo, para pasar de una pantalla a otra -->
-  <nav id="menu" class="menu" hidden>
-    <button type="button" data-pantalla="carga" class="activo">Cargar</button>
-    <button type="button" data-pantalla="inicio">Inicio</button>
-    <button type="button" data-pantalla="semanal">Semanal</button>
-    <button type="button" data-pantalla="cuotas">Cuotas</button>
-    <button type="button" data-pantalla="ciclo">Ciclo</button>
-  </nav>
+  <!-- Menú: atajos abajo, botón redondo para cargar y menú lateral con todas las pantallas -->
+  <div id="menu" hidden>
+    <nav class="barra-abajo" aria-label="Atajos">
+      <button type="button" data-pantalla="inicio"><span class="ico" aria-hidden="true">🏠</span>Inicio</button>
+      <button type="button" data-pantalla="semanal"><span class="ico" aria-hidden="true">🗓️</span>Semanal</button>
+      <span class="hueco" aria-hidden="true"></span>
+      <button type="button" data-pantalla="cuotas"><span class="ico" aria-hidden="true">💳</span>Cuotas</button>
+      <button type="button" class="hambur-abajo" aria-controls="cajon" aria-expanded="false"><span class="ico" aria-hidden="true">☰</span>Menú</button>
+    </nav>
+    <button type="button" class="fab" data-pantalla="carga" aria-label="Cargar un movimiento">+</button>
+
+    <div id="velo" class="velo" hidden></div>
+    <nav id="cajon" class="cajon" aria-label="Menú" hidden>
+      <div class="perfil">
+        <span class="avatar" aria-hidden="true">A</span>
+        <span><b>Agos</b><small>Tus finanzas</small></span>
+        <button type="button" class="cerrar-cajon" aria-label="Cerrar el menú">✕</button>
+      </div>
+      <p class="grupo">Día a día</p>
+      <button type="button" data-pantalla="carga"><i aria-hidden="true">➕</i>Cargar</button>
+      <button type="button" data-pantalla="inicio"><i aria-hidden="true">🏠</i>Inicio</button>
+      <button type="button" data-pantalla="semanal"><i aria-hidden="true">🗓️</i>Semanal</button>
+      <p class="grupo">Mirar</p>
+      <button type="button" data-pantalla="analisis"><i aria-hidden="true">🍩</i>En qué se va la plata</button>
+      <button type="button" data-pantalla="cuotas"><i aria-hidden="true">💳</i>Cuotas</button>
+      <p class="grupo">Ordenar</p>
+      <button type="button" data-pantalla="ciclo"><i aria-hidden="true">🔄</i>Ciclo y presupuesto</button>
+      <button id="boton-salir" type="button" class="salir"><i aria-hidden="true">👋</i>Salir</button>
+    </nav>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
