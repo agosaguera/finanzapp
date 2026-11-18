@@ -92,6 +92,7 @@ async function mostrarCiclo() {
   }
   mostrarSinPresupuesto(cat.error ? [] : cat.data.map((c) => c.categoria), gas);
   mostrarAlertaDesconocidos(gas);
+  mostrarDona(gas);
 }
 
 function mostrarAlertaDesconocidos(gas) {
@@ -109,6 +110,37 @@ function mostrarAlertaDesconocidos(gas) {
   p.textContent = `${conEmoji("Desconocidos")}: ${formatearPesos(desconocido)}, el ${Math.round(parte * 100)} % de tus gastos variables. ` +
     (rojo ? "¡Ey, tenés que anotar todo!" : "Ojo, intentá anotar en qué se va.");
   p.hidden = false;
+}
+
+// Dona "En qué se va": las 4 categorías más grandes y el resto junto en "Otras".
+// Es un dibujo de CSS (conic-gradient), sin librerías, para que cargue al toque.
+function mostrarDona(gas) {
+  const dona = $("inicio-dona");
+  const ley = $("inicio-dona-leyenda");
+  const filas = gas.error ? [] : gas.data
+    .filter((g) => Number(g.total) > 0)
+    .sort((a, b) => Number(b.total) - Number(a.total));
+  const total = filas.reduce((t, g) => t + Number(g.total), 0);
+  if (!total) {
+    dona.style.background = "";
+    dona.setAttribute("aria-label", "Sin gastos");
+    ley.innerHTML = "<span>Sin gastos en este ciclo.</span>";
+    return;
+  }
+  const partes = filas.slice(0, 4).map((g) => ({ nombre: conEmoji(g.categoria), valor: Number(g.total) }));
+  const resto = filas.slice(4).reduce((t, g) => t + Number(g.total), 0);
+  if (resto > 0) partes.push({ nombre: "Otras", valor: resto });
+  let acumulado = 0;
+  const tramos = partes.map((p, n) => {
+    const desde = (acumulado / total) * 100;
+    acumulado += p.valor;
+    return `var(--serie-${n + 1}) ${desde}% ${(acumulado / total) * 100}%`;
+  });
+  dona.style.background = `conic-gradient(${tramos.join(", ")})`;
+  const textos = partes.map((p) => `${p.nombre} ${Math.round((p.valor / total) * 100)} %`);
+  dona.setAttribute("aria-label", textos.join(", "));
+  ley.innerHTML = partes.map((p, n) =>
+    `<span style="--c:var(--serie-${n + 1})">${escapar(textos[n])}</span>`).join("");
 }
 
 // Las categorías sin presupuesto propio (Extras, Desconocidos…), de mayor a menor

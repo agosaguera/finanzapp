@@ -8,8 +8,6 @@
 let gastosAnalisis = [];   // movimientos del ciclo (solo gastos)
 let filtroAnalisis = null; // { categoria, tipo: "Fijo" | "Variable" | null }
 
-$("boton-analisis").addEventListener("click", () => mostrar("analisis"));
-$("boton-volver-inicio").addEventListener("click", () => mostrar("inicio"));
 
 function mensajeAnalisis(texto) {
   $("analisis-mensaje").textContent = texto;
